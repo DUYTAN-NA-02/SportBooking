@@ -6,7 +6,7 @@ namespace SportBooking.Server.models
     {
         public int? Id { get; set; }
         public int? CourtId { get; set; }
-        public int? UserId { get; set; }
+        public string? UserId { get; set; }
         public int? TimeSlotId { get; set; }
         public Status? Status { get; set; }
         public TimeSlot? TimeSlot { get; set; }

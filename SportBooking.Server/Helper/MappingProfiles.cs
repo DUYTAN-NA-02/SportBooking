@@ -12,6 +12,8 @@ namespace SportBooking.Server.Helper
             // Just get information
             CreateMap<User, UserDto>();
             CreateMap<UserDto, User>();
+            CreateMap<User, UserNotTokenDto>();
+            CreateMap<UserNotTokenDto, User>();
 
             // Register user
             CreateMap<UserRegisterDto, User>();

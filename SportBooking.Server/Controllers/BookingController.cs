@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SportBooking.Server.Dto;
 using SportBooking.Server.Enum;
@@ -20,6 +21,7 @@ namespace SportBooking.Server.Controllers
             _mapper = mapper;
         }
         [HttpGet("GetBookings")]
+        //[Authorize(Roles = "Admin")]
         [ProducesResponseType(200, Type = typeof(ICollection<Booking>))]
         public async Task<IActionResult> GetBookings()
         {
@@ -27,9 +29,9 @@ namespace SportBooking.Server.Controllers
             var newBookingList = _mapper.Map<ICollection<BookingDtoRes>>(bookingList);
             return Ok(newBookingList);
         }
+
         [HttpGet("GetBookingById/{id}")]
         [ProducesResponseType(200, Type = typeof(Booking))]
-        [ProducesResponseType(404)]
         public async Task<IActionResult> GetBookingById(int id)
         {
             var booking = await _bookingRepository.GetBookingById(id);
@@ -42,7 +44,6 @@ namespace SportBooking.Server.Controllers
         }
         [HttpPost("CreateBooking")]
         [ProducesResponseType(200, Type = typeof(Booking))]
-        [ProducesResponseType(400)]
         public async Task<IActionResult> CreateBooking([FromBody] BookingDto booking)
         {
             if(!ValidEnum.IsDefined(typeof(Status), booking.Status))
@@ -59,7 +60,6 @@ namespace SportBooking.Server.Controllers
         }
         [HttpPut("UpdateBooking/{id}")]
         [ProducesResponseType(200,Type = typeof(Booking))]
-        [ProducesResponseType(400)]
         public async Task<IActionResult> UpdateBooking(int id, [FromBody] BookingUpdateDto booking)
         {
             if (!ValidEnum.IsDefined(typeof(Status), booking.Status))
@@ -92,8 +92,7 @@ namespace SportBooking.Server.Controllers
         }
         [HttpGet("GetBookingByUser/{id}")]
         [ProducesResponseType(200, Type = typeof(Booking))]
-        [ProducesResponseType(404)]
-        public async Task<IActionResult> GetBookingByUserId(int id)
+        public async Task<IActionResult> GetBookingByUserId(string id)
         {
             var booking = await _bookingRepository.GetBookingByUserId(id);
             if (booking == null)

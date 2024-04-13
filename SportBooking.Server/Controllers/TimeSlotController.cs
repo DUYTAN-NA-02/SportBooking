@@ -44,7 +44,6 @@ namespace SportBooking.Server.Controllers
         }
         [HttpGet("GetTimeSlotsByCourt/{courtId}")]
         [ProducesResponseType(200, Type = typeof(ICollection<TimeSlot>))]
-        [ProducesResponseType(404)]
         public async Task<IActionResult> GetTimeSlotsByCourtId(int courtId)
         {
             var timeSlots = await _timeSlotRepository.GetTimeSlotsByCourtId(courtId);
@@ -57,7 +56,6 @@ namespace SportBooking.Server.Controllers
         }
         [HttpPost("CreateTimeSlot/{id}")]
         [ProducesResponseType(200, Type = typeof(TimeSlot))]
-        [ProducesResponseType(404)]
         public async Task<IActionResult> CreateTimeSlot(int id, [FromBody] TimeSlotDto timeSlotDto)
         {
             if (!ValidDateTime.IsDateTimeSmallThenNow(timeSlotDto.TimeStart.ToString()))
@@ -83,7 +81,6 @@ namespace SportBooking.Server.Controllers
         }
         [HttpPut("UpdateTimeSlot/{id}")]
         [ProducesResponseType(200, Type = typeof(TimeSlot))]
-        [ProducesResponseType(404)]
         public async Task<IActionResult> UpdateTimeSlot(int id, [FromBody] TimeSlotDto timeSlotDto)
         {
             if (!ValidDateTime.IsDateTimeSmallThenNow(timeSlotDto.TimeStart.ToString()))

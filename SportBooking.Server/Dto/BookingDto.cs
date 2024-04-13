@@ -6,7 +6,7 @@ namespace SportBooking.Server.Dto
     public class BookingDto
     {
         public int? CourtId { get; set; }
-        public int? UserId { get; set; }
+        public string? UserId { get; set; }
         public int? TimeSlotId { get; set; }
         public Status? Status { get; set; }
     }
@@ -18,7 +18,7 @@ namespace SportBooking.Server.Dto
     {
         public int? Id { get; set; }
         public int? CourtId { get; set; }
-        public int? UserId { get; set; }
+        public string? UserId { get; set; }
         public int? TimeSlotId { get; set; }
         public Status? Status { get; set; }
         public TimeSlotDetail? TimeSlot { get; set; }
@@ -27,12 +27,12 @@ namespace SportBooking.Server.Dto
     {
         public int? Id { get; set; }
         public int? CourtId { get; set; }
-        public int? UserId { get; set; }
+        public string? UserId { get; set; }
         public int? TimeSlotId { get; set; }
         public Status? Status { get; set; }
         public TimeSlotDetail? TimeSlot { get; set; }
         public CourtIdDto? Court { get; set; }
-        public UserDto? User { get; set; }
+        public UserNotTokenDto? User { get; set; }
     }
 
 }

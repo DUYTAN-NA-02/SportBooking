@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SportBooking.Server.Dto;
 using SportBooking.Server.Interfaces;
 using SportBooking.Server.models;
@@ -7,113 +9,85 @@ using SportBooking.Server.ValidData;
 
 namespace SportBooking.Server.Controllers
 {
-    [Route("auth/[controller]")]
+    [Route("auth/account")]
     [ApiController]
     public class UserController : Controller
     {
-        private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
-        public UserController(IUserRepository userRepository, IMapper mapper)
+        private readonly UserManager<User> _userManager;
+        private readonly ITokenService _tokenService;
+        private readonly SignInManager<User> _signinManager;
+        public UserController(UserManager<User> userManager, ITokenService tokenService, SignInManager<User> signInManager, IMapper mapper)
         {
-            _userRepository = userRepository;
             _mapper = mapper;
+            _userManager = userManager;
+            _tokenService = tokenService;
+            _signinManager = signInManager;
         }
-
-        [HttpGet]
-        [ProducesResponseType(200, Type = typeof(ICollection<User>))]
-        public async Task<IActionResult> GetUsers()
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(UserLoginDto loginDto)
         {
-            var users = await _userRepository.GetUsersAsync();
-            if (users == null)
-                return BadRequest("Not have users");
-            var newUser = _mapper.Map<List<UserDto>>(users);
-            return Ok(newUser);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Email == loginDto.Email.ToLower());
+            if (user == null) return Unauthorized("Invalid username!");
+
+            var result = await _signinManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
+
+            if (!result.Succeeded) return Unauthorized("Username not found and/or password incorrect");
+
+            var userDto = _mapper.Map<UserDto>(user);
+            userDto.Token = await _tokenService.CreateToken(user);
+            return Ok(userDto);
         }
-
-        [HttpPost("Login")]
-        [ProducesResponseType(200, Type = typeof(User))]
-        [ProducesResponseType(404)]
-        public async Task<IActionResult> LoginUser(UserLoginDto user)
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] UserRegisterDto registerDto)
         {
-            if (user == null)
+            try
             {
-                return BadRequest("Have not user");
-            }
-            string email = user.Email;
-            if (!VaildLoginRegister.IsEmail(email))
-            {
-                return BadRequest("Email is not valid");
-            }
-            string password = user.Password;
-            if (!VaildLoginRegister.IsPassword(password))
-            {
-                return BadRequest("Password is not valid");
-            }
-            var newuser = await _userRepository.LoginUser(_mapper.Map<User>(user));
-            if (newuser == null)
-            {
-                return NotFound();
-            }
-            var userResponse = _mapper.Map<UserDto>(newuser);
-            return Ok(userResponse);
-        }
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
 
-        [HttpPost("Register")]
-        [ProducesResponseType(200, Type = typeof(User))]
-        [ProducesResponseType(400)]
-        public async Task<IActionResult> RegisterUser([FromBody] UserRegisterDto user)
-        {
-            string email = user.Email;
-            if (!VaildLoginRegister.IsEmail(email))
-            {
-                return BadRequest("Email is not valid");
+                var appUser = new User
+                {
+                    UserName = registerDto.Email,
+                    Email = registerDto.Email,
+                    PhoneNumber = registerDto.Phone
+                };
+
+                var createdUser = await _userManager.CreateAsync(appUser, registerDto.Password);
+
+                if (createdUser.Succeeded)
+                {
+                    var roleResult = await _userManager.AddToRoleAsync(appUser, "User");
+                    if (roleResult.Succeeded)
+                    {
+                        return Ok(
+                            new UserDto
+                            {
+                                Id = appUser.Id,
+                                UserName = appUser.UserName,
+                                Email = appUser.Email,
+                                PhoneNumber = appUser.PhoneNumber,
+                                Token = await _tokenService.CreateToken(appUser)
+                            }
+                        );
+                    }
+                    else
+                    {
+                        return StatusCode(500, roleResult.Errors);
+                    }
+                }
+                else
+                {
+                    return StatusCode(500, createdUser.Errors);
+                }
             }
-            string password = user.Password;
-            if (!VaildLoginRegister.IsPassword(password))
+            catch (Exception e)
             {
-                return BadRequest("Password is not valid");
+                return StatusCode(500, e);
             }
-            string phone = user.Phone;
-            if (!VaildLoginRegister.IsPhoneNumber(phone))
-            {
-                return BadRequest("Phone is not valid");
-            }
-            var newUser = await _userRepository.RegisterUser(_mapper.Map<User>(user));
-            if (newUser == null)
-            {
-                return BadRequest("User already exists");
-            }
-            var userResponse = _mapper.Map<UserDto>(newUser);
-            return Ok(userResponse);
-        }
-        [HttpGet("{id}")]
-        [ProducesResponseType(200, Type = typeof(User))]
-        [ProducesResponseType(404)]
-        public async Task<IActionResult> GetUserById(int id)
-        {
-            var user = await _userRepository.GetUserById(id);
-
-            if (user == null)
-                return NotFound();
-
-            var newUser = _mapper.Map<UserDto>(user);
-            return Ok(newUser);
-        }
-        [HttpDelete("{id}")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(404)]
-        public async Task<IActionResult> DeleteUser(int id)
-        {
-            var user = await _userRepository.GetUserById(id);
-
-            if (user == null)
-                return NotFound();
-
-            var isDeleted = await _userRepository.DeleteUser(user);
-
-            if (!isDeleted)
-                return BadRequest("Delete user Failed");
-            return Ok("User Deleted");
         }
     }
 }

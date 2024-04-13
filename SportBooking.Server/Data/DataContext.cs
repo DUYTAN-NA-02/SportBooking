@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SportBooking.Server.models;
 
 namespace SportBooking.Server.Data
 {
-    public class DataContext : DbContext
+    public class DataContext : IdentityDbContext<User>
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
@@ -18,6 +20,8 @@ namespace SportBooking.Server.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Booking>()
                     .HasOne(b => b.User)
                     .WithMany(u => u.Bookings)
@@ -42,6 +46,20 @@ namespace SportBooking.Server.Data
                     .HasForeignKey(c => c.BigCourtId)
                     .OnDelete(DeleteBehavior.Cascade);
 
+            List<IdentityRole> roles = new List<IdentityRole>
+            {
+                new IdentityRole
+                {
+                    Name = "Admin",
+                    NormalizedName = "ADMIN"
+                },
+                new IdentityRole
+                {
+                    Name = "User",
+                    NormalizedName = "USER"
+                },
+            };
+            modelBuilder.Entity<IdentityRole>().HasData(roles);
         }
     }
 }

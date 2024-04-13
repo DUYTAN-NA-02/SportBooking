@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SportBooking.Server.Data;
 using SportBooking.Server.Enum;
@@ -10,9 +11,11 @@ namespace SportBooking.Server.Repository
     public class BookingRepository : IBookingRepository
     {
         private readonly DataContext dataContext;
-        public BookingRepository(DataContext dataContext)
+        private readonly UserManager<User> userManager;
+        public BookingRepository(DataContext dataContext, UserManager<User> userManager)
         {
             this.dataContext = dataContext;
+            this.userManager = userManager;
         }
         public async Task<Booking> CreateBooking(Booking booking)
         {
@@ -21,7 +24,7 @@ namespace SportBooking.Server.Repository
             {
                 return null;
             }
-            var user = await dataContext.Users.FindAsync(userId);
+            var user = await userManager.FindByIdAsync(userId);
             if (user == null)
             {
                 return null;
@@ -122,7 +125,7 @@ namespace SportBooking.Server.Repository
             return bookingList;
         }
 
-        public async Task<ICollection<Booking>> GetBookingsByUserId(int userId)
+        public async Task<ICollection<Booking>> GetBookingsByUserId(string userId)
         {
             var bookingList = await dataContext.Bookings.Where(c => c.UserId == userId).ToListAsync();
             return bookingList;
@@ -144,7 +147,7 @@ namespace SportBooking.Server.Repository
             return booking;
         }
 
-        public async Task<ICollection<Booking>> GetBookingByUserId(int userId)
+        public async Task<ICollection<Booking>> GetBookingByUserId(string userId)
         {
             var booking = await dataContext.Bookings
                 .Include(b => b.User)

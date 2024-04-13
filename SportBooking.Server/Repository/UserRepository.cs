@@ -14,41 +14,66 @@ namespace SportBooking.Server.Repository
             _context = context;
         }
 
-        public async Task<List<User>> GetUsersAsync()
+        public Task<bool> DeleteUser(User user)
         {
-            return await _context.Users.OrderBy(u => u.Id).ToListAsync();
+            throw new NotImplementedException();
         }
 
-        public async Task<User> LoginUser(User user)
+        public Task<User> GetUserById(int id)
         {
-            return await _context.Users.Where(u => u.Email == user.Email && u.Password == user.Password).FirstOrDefaultAsync();
+            throw new NotImplementedException();
         }
 
-        public async Task<User> RegisterUser(User user)
+        public Task<List<User>> GetUsersAsync()
         {
-
-            bool userExists = await _context.Users.AnyAsync(u => u.Email == user.Email || u.Name == user.Name);
-            if (userExists)
-            {
-                return null;
-            }
-            user.Role = Enum.Roles.User;
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-
-            return user;
+            throw new NotImplementedException();
         }
 
-        public async Task<User> GetUserById(int id)
+        public Task<User> LoginUser(User user)
         {
-            return await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+            throw new NotImplementedException();
         }
 
-        public async Task<bool> DeleteUser(User user)
+        public Task<User> RegisterUser(User user)
         {
-            _context.Remove(user);
-            var isDelete = _context.SaveChanges();
-            return isDelete > 0 ? true : false;
+            throw new NotImplementedException();
         }
+
+        //public async Task<List<User>> GetUsersAsync()
+        //{
+        //    return await _context.Users.OrderBy(u => u.Id).ToListAsync();
+        //}
+
+        //public async Task<User> LoginUser(User user)
+        //{
+        //    return await _context.Users.Where(u => u.Email == user.Email && u.Password == user.Password).FirstOrDefaultAsync();
+        //}
+
+        //public async Task<User> RegisterUser(User user)
+        //{
+
+        //    bool userExists = await _context.Users.AnyAsync(u => u.Email == user.Email || u.Name == user.Name);
+        //    if (userExists)
+        //    {
+        //        return null;
+        //    }
+        //    user.Role = Enum.Roles.User;
+        //    _context.Users.Add(user);
+        //    await _context.SaveChangesAsync();
+
+        //    return user;
+        //}
+
+        //public async Task<User> GetUserById(int id)
+        //{
+        //    return await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+        //}
+
+        //public async Task<bool> DeleteUser(User user)
+        //{
+        //    _context.Remove(user);
+        //    var isDelete = _context.SaveChanges();
+        //    return isDelete > 0 ? true : false;
+        //}
     }
 }
