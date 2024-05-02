@@ -1,0 +1,48 @@
+.box-main {
+    /*margin-top: 60px*/
+    background-color: #57a6f4;
+    min-height: 350px;
+    width: 100%;
+    border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    
+    .box-filter{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        margin-top: 20px;
+        border-radius: 10px;
+        padding: 10px;
+        border: 4px dashed #fff;
+    }
+}
+
+.box-information {
+    display: flex;
+    margin: 20px 0px;
+    padding: 0px 10px;
+    gap: 20px;
+    > * {
+        flex: 1;
+        border-radius: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+    }
+    img{
+        border-radius: 10px;
+    }
+}
+
+.box-courts{
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 20px;
+}

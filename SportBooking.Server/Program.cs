@@ -2,7 +2,9 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 using SportBooking.Server.Data;
 using SportBooking.Server.Helper;
@@ -66,17 +68,6 @@ builder.Services.AddScoped<ITimeSlotRepository, TimeSlotRepository>();
 builder.Services.AddScoped<IBookingRepository, BookingRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 
-builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(
-               builder =>
-               {
-                   builder.WithOrigins()
-                       .AllowAnyHeader()
-                       .AllowAnyMethod();
-               });
-});
-
 builder.Services.AddControllers()
         .AddJsonOptions(options =>
         {
@@ -124,6 +115,22 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+var MyAllowSpecificOrigins = "MyCorsPolicy";
+var allowOrigins = builder.Configuration.GetValue<string>("AllowOrigins");
+if(allowOrigins == null)
+{
+    allowOrigins = "*";
+}
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                             builder =>
+                             {
+                                 builder.AllowAnyOrigin()
+                                 .AllowAnyHeader()
+                                 .AllowAnyMethod();
+                             });
+});
 
 var app = builder.Build();
 
@@ -137,6 +144,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors(MyAllowSpecificOrigins);
 
 app.UseHttpsRedirection();
 
