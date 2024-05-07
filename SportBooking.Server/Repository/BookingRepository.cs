@@ -17,7 +17,7 @@ namespace SportBooking.Server.Repository
             this.dataContext = dataContext;
             this.userManager = userManager;
         }
-        public async Task<Booking> CreateBooking(Booking booking)
+        public async Task<Booking?> CreateBooking(Booking booking)
         {
             var userId = booking.UserId;
             if (userId == null)
@@ -49,12 +49,16 @@ namespace SportBooking.Server.Repository
             {
                 return null;
             }
+            if(timeSlot.TimeStart < DateTime.Now)
+            {
+                return null;
+            }
+
             var timeSLotExist = await dataContext.Bookings.Where(b => b.TimeSlotId == timeSlotId).FirstOrDefaultAsync();
             if (timeSLotExist != null)
             {
                 return null;
             }
-            
 
             //var earliestTimeSlot = await dataContext.Bookings
             //        .Where(b => b.UserId == userId)

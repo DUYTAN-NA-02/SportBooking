@@ -17,7 +17,7 @@ const publicRoutes = [
     { path: "/register", page: Register, layout: Auth },
     { path: "/about", page: About, layout: Blank },
     { path: "/Court/:courtId", page: Court, layout: Main },
-    { path: "/Payment/:paymentId", page: Payment, layout: Blank},
+    { path: "/Payment/:paymentId", page: Payment, layout: Main },
     { path: "*", page: NotFound, layout: Blank }
 ]
 

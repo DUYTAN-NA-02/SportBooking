@@ -227,7 +227,7 @@ function courtId() {
                                     <Chip
                                         key={index}
                                         label={formatDateStartEnd(item.timeStart, item.timeEnd)}
-                                        color="primary"
+                                        color={timeslot?.id === item.id ? 'primary' : 'default'}
                                         sx={{
                                             '& .MuiChip-label': {
                                                 display: 'block',

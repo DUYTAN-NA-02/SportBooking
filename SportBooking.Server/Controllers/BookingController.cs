@@ -46,6 +46,10 @@ namespace SportBooking.Server.Controllers
         [ProducesResponseType(200, Type = typeof(Booking))]
         public async Task<IActionResult> CreateBooking([FromBody] BookingDto booking)
         {
+            if (booking.Status == null)
+            {
+                return BadRequest("Status is required");
+            }
             if(!ValidEnum.IsDefined(typeof(Status), booking.Status))
             {
                return BadRequest("Status is not valid");
@@ -62,6 +66,10 @@ namespace SportBooking.Server.Controllers
         [ProducesResponseType(200,Type = typeof(Booking))]
         public async Task<IActionResult> UpdateBooking(int id, [FromBody] BookingUpdateDto booking)
         {
+            if (booking.Status == null)
+            {
+                return BadRequest("Status is required");
+            }
             if (!ValidEnum.IsDefined(typeof(Status), booking.Status))
             {
                 return BadRequest("Status is not valid");

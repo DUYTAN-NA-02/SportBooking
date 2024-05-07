@@ -32,13 +32,15 @@ namespace SportBooking.Server.Repository
             return await Save();
         }
 
-        public async Task<Court> GetCourt(int id)
+        public async Task<Court?> GetCourt(int id)
         {
             var court = await _context.Courts
                                 .Include(c => c.BigCourt)
-                                .Include(c => c.TimeSlots)
+                                .Include(c => c.TimeSlots.Where(t => t.TimeStart > DateTime.Now))
                                 .Include(c => c.Medias)
                                 .FirstOrDefaultAsync(c => c.Id == id);
+            if (court == null)
+                return null;
             return court;
         }
 
