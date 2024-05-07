@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Style from './HomeStyles.module.scss';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { getBigCourt } from '../../services/courtService';
 import MenuItem from '@mui/material/MenuItem';
@@ -23,6 +23,8 @@ function home() {
     const [startDate, setStartDate] = useState(dayjs());
     const [endDate, setEndDate] = useState(dayjs());
 
+    const boxCourtsRef = useRef(null);
+
     const fetchCourts = async () => {
         const res = await getBigCourt()
         console.log(res)
@@ -37,6 +39,7 @@ function home() {
     const handleSelectedCourt = (event) => {
         const selectedCourt = courts.find(court => court.name === event.target.value);
         setCourtSelected(selectedCourt);
+        boxCourtsRef.current.scrollIntoView({ behavior: 'smooth' });
     }
 
     return (
@@ -166,7 +169,7 @@ function home() {
                     />
                 </Box>
             </Box>
-            <Box className={Style["box-courts"]}>
+            <Box className={Style["box-courts"]} ref={boxCourtsRef}>
                 <CourtCards courtSelected={courtSelected} />
             </Box>
         </>

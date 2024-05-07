@@ -30,7 +30,6 @@
         flex: 1;
         border-radius: 10px;
         display: flex;
-        justify-content: space-between;
         align-items: center;
 
     }
@@ -42,7 +41,6 @@
 .box-courts{
     display: flex;
     gap: 20px;
-    justify-content: space-between;
     flex-wrap: wrap;
     padding: 20px;
 }

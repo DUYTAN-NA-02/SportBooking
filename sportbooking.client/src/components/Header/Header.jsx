@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from 'react';
+﻿import { useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -28,20 +28,19 @@ function Header({ avatarName }) {
         setAnchorElUser(event.currentTarget);
     };
 
-    const handleCloseNavMenu = (e) => {
+    const handleCloseNavMenu = (index) => {
         setAnchorElNav(null);
-        console.log(e.target.innerText);
-        if (e.target.innerText === 'COURT') {
+        if (index == 0) {
             navigate('/court')
-        } else if (e.target.innerText === 'ABOUT') {
+        }
+        else if (index == 1) {
             navigate('/about')
         }
     };
 
-    const handleCloseUserMenu = (e) => {
+    const handleCloseUserMenu = (index) => {
         setAnchorElUser(null);
-        console.log(e.target.innerText)
-        if (e.target.innerText === 'Đăng xuất') {
+        if (index == 2) {
             handleLogout()
         }
     };
@@ -68,7 +67,9 @@ function Header({ avatarName }) {
                             letterSpacing: '.3rem',
                             color: 'inherit',
                             textDecoration: 'none',
+                            cursor: 'pointer',
                         }}
+                        onClick={() => navigate('/')}
                     >
                         SPORTBOOKING
                     </Typography>
@@ -102,8 +103,8 @@ function Header({ avatarName }) {
                                 display: { xs: 'block', md: 'none' },
                             }}
                         >
-                            {pages.map((page) => (
-                                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                            {pages.map((page, index) => (
+                                <MenuItem key={page} onClick={() => handleCloseNavMenu(index)}>
                                     <Typography textAlign="center">{page.toUpperCase()}</Typography>
                                 </MenuItem>
                             ))}
@@ -129,10 +130,10 @@ function Header({ avatarName }) {
                         SPORTBOOKING
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                        {pages.map((page) => (
+                        {pages.map((page, index) => (
                             <Button
                                 key={page}
-                                onClick={handleCloseNavMenu}
+                                onClick={() => handleCloseNavMenu(index)}
                                 sx={{ my: 2, color: 'white', display: 'block' }}
                             >
                                 {page}
@@ -162,8 +163,8 @@ function Header({ avatarName }) {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                            {settings.map((setting, index) => (
+                                <MenuItem key={setting} onClick={() => handleCloseUserMenu(index)}>
                                     <Typography textAlign="center">{setting}</Typography>
                                 </MenuItem>
                             ))}
