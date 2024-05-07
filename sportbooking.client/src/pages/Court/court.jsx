@@ -118,7 +118,7 @@ function courtId() {
                 <Box
                     className={Styles["box-main"]}
                 >
-                    <ImageList sx={{ width: 'auto', height: 200 }} variant="quilted" cols={3} rowHeight={164}>
+                    <ImageList sx={{ width: 'auto', height: 250 }} variant="quilted" cols={3} rowHeight={164}>
                         {court?.medias?.map((item, index) => (
                             <ImageListItem sx={{ cursor: "pointer" }} className='animate__animated animate__bounceIn' onClick={handleChooseImage} key={index}>
                                 <img

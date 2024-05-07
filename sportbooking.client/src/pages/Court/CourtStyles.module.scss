@@ -16,10 +16,12 @@
     }
 
     .box-info {
-        min-width: 300px;
         display: flex;
         flex-direction: column;
         gap: 20px;
+        width: 100%;
+        padding: 20px;
+
 
         .box-info-item {
             padding: 10px;

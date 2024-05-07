@@ -1,4 +1,5 @@
 ﻿using SportBooking.Server.models;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SportBooking.Server.Dto
 {
@@ -10,7 +11,8 @@ namespace SportBooking.Server.Dto
         public string Address { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
-        public List<IFormFile> Files { get; set; } 
+        [AllowNull]
+        public List<IFormFile>? Files { get; set; } 
     }
     public class CourtIdDto
     {

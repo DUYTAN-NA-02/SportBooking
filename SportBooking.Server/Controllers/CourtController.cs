@@ -55,15 +55,18 @@ namespace SportBooking.Server.Controllers
             var newCourt = await _courtRepository.AddCourt(id,_mapper.Map<Court>(court));
             if (newCourt == null)
                 return BadRequest("Add court Failed");
-            var resultUrls = await _cloudinaryServies.UploadFiles(court.Files);
-            if (resultUrls.Count != court.Files.Count)
+            if (court.Files != null && court.Files.Count > 0)
             {
-                return BadRequest("Add image url Failed");
+                var resultUrls = await _cloudinaryServies.UploadFiles(court.Files);
+                if (resultUrls.Count != court.Files.Count)
+                {
+                    return BadRequest("Add image url Failed");
+                }
+                List<Media> medias = await _mediaRepository.AddMedia(newCourt.Id, resultUrls);
+                if (medias == null)
+                    return BadRequest("Add media Failed");
+                newCourt.Medias = medias;
             }
-            List<Media> medias = await _mediaRepository.AddMedia(newCourt.Id, resultUrls);
-            if (medias == null)
-                return BadRequest("Add media Failed");
-            newCourt.Medias = medias;
             var _newCourt = _mapper.Map<CourtIdDto>(newCourt);
             return Ok(_newCourt);
         }
@@ -79,17 +82,19 @@ namespace SportBooking.Server.Controllers
             var courtRes = await _courtRepository.UpdateCourt(_mapper.Map<Court>(newCourt));
             if (courtRes == null)
                 return BadRequest("Update court Failed");
-
-            var resultUrls = await _cloudinaryServies.UploadFiles(court.Files);
-            if (resultUrls.Count != court.Files.Count)
+            
+            if(court.Files != null && court.Files.Count > 0)
             {
-                return BadRequest("Add image url Failed");
+                var resultUrls = await _cloudinaryServies.UploadFiles(court.Files);
+                if (resultUrls.Count != court.Files.Count)
+                {
+                    return BadRequest("Add image url Failed");
+                }
+                List<Media> medias = await _mediaRepository.AddMedia(newCourt.Id, resultUrls);
+                if (medias == null)
+                    return BadRequest("Add media Failed");
+                newCourt.Medias = medias;
             }
-            List<Media> medias = await _mediaRepository.AddMedia(newCourt.Id, resultUrls);
-            if (medias == null)
-                return BadRequest("Add media Failed");
-
-            newCourt.Medias = medias;
             var _courtRes = _mapper.Map<CourtIdDto>(courtRes);
             return Ok(_courtRes);
         }
