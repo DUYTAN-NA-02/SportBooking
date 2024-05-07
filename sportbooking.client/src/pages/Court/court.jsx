@@ -1,10 +1,9 @@
-﻿import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import { getSmallCourtById } from '../../services/courtService';
 import ShowImage from '../../components/ShowImage/index';
 
 import Styles from './CourtStyles.module.scss';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import ImageList from '@mui/material/ImageList';
@@ -30,8 +29,14 @@ function courtId() {
     const [message, setMessage] = useState('')
     const [status, setStatus] = useState('')
 
+    const navigate = useNavigate()
+
     const fetchCourt = async () => {
         let res = await getSmallCourtById(courtId);
+        if (res.status == 404) {
+            navigate('*')
+            return;
+        }
         console.log(res);
         setCourt(res);
     }
