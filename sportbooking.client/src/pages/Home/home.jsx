@@ -25,6 +25,7 @@ function home() {
 
     const fetchCourts = async () => {
         const res = await getBigCourt()
+        console.log(res)
         setCourts(res)
         setCourtSelected(res[0])
     }
@@ -50,7 +51,7 @@ function home() {
                         textDecoration: 'none',
                         color: 'white'
                     }}
-                    variant="h5">Find your the court to Booking
+                    variant="h5">Tìm sân bóng ngay nào
                 </Typography>
                 <Box
                     className={Style["box-filter"]}
@@ -58,7 +59,7 @@ function home() {
                     <TextField
                         id="namecourt"
                         select
-                        label="Court"
+                        label="Loại sân bóng"
                         value={courtSelected?.name || ''}
                         onChange={handleSelectedCourt}
                         InputLabelProps={{ style: { color: 'white' } }}
@@ -83,13 +84,14 @@ function home() {
                         startDate={startDate}
                         endDate={endDate}
                         setStartDate={setStartDate}
+                        themeSet="light"
                         setEndDate={setEndDate} />
                     <LoadingButton
                         loading={loading}
                         onClick={() => setLoading(true)}
                         variant="contained"
                     >
-                        Search
+                        Tìm kiếm
                     </LoadingButton>
                 </Box>
             </Box>
@@ -104,7 +106,7 @@ function home() {
                         textDecoration: 'none',
                         marginLeft: '60px',
                     }}
-                    variant="h5">Home
+                    variant="h5">Trang chủ
                 </Typography>
             </Box>
             <Box className={Style['box-information']}>

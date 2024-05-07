@@ -8,9 +8,7 @@
     }
 }
 .box-main {
-    margin-left: 60px;
     display: flex;
-    padding: 0px 60px;
     gap: 20px;
     justify-content: space-between;
 
@@ -21,7 +19,6 @@
 
     .box-info {
         margin-bottom: 20px;
-        padding: 20px;
         border: 1px solid #e9ecef;
         border-radius: 5px;
         background-color: #f8f9fa;
@@ -31,9 +28,27 @@
         gap:20px;
 
         .box-info-item{
+            padding: 10px;
             display: flex;
             justify-content: space-between;
             height: auto;
+        }
+    }
+}
+
+.box-info-booking {
+    display: flex;
+    justify-content: space-between;
+    .box-info-booking-user {
+        flex: 1;
+        min-width: 200px;
+        background-color: blue;
+    }
+
+    .box-info-booking-timeslot {
+        flex: 2;
+        background-color: red;
+        .box-info-booking-timeslot-item{
         }
     }
 }

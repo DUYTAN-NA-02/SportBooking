@@ -5,5 +5,5 @@ export const getBigCourt = async () => {
 }
 
 export const getSmallCourtById = async (id) => {
-    return await request.get(`/Court/GetCourt/${id}`);
+    return await request.get(`/Court/Court/${id}`);
 }

@@ -30,7 +30,7 @@ namespace SportBooking.Server.Controllers
             return Ok(newBookingList);
         }
 
-        [HttpGet("GetBookingById/{id}")]
+        [HttpGet("Booking/{id}")]
         [ProducesResponseType(200, Type = typeof(Booking))]
         public async Task<IActionResult> GetBookingById(int id)
         {
@@ -42,7 +42,7 @@ namespace SportBooking.Server.Controllers
             var newBooking = _mapper.Map<BookingDtoResDetail>(booking);
             return Ok(newBooking);
         }
-        [HttpPost("CreateBooking")]
+        [HttpPost("Booking")]
         [ProducesResponseType(200, Type = typeof(Booking))]
         public async Task<IActionResult> CreateBooking([FromBody] BookingDto booking)
         {
@@ -58,7 +58,7 @@ namespace SportBooking.Server.Controllers
             var _newBooking = _mapper.Map<BookingDtoResDetail>(newBooking);
             return Ok(_newBooking);
         }
-        [HttpPut("UpdateBooking/{id}")]
+        [HttpPut("Booking/{id}")]
         [ProducesResponseType(200,Type = typeof(Booking))]
         public async Task<IActionResult> UpdateBooking(int id, [FromBody] BookingUpdateDto booking)
         {
@@ -80,7 +80,7 @@ namespace SportBooking.Server.Controllers
             var _newBooking = _mapper.Map<BookingDtoRes>(updatedBooking);
             return Ok(_newBooking);
         }
-        [HttpDelete("DeleteBooking/{id}")]
+        [HttpDelete("Booking/{id}")]
         public async Task<IActionResult> DeleteBooking(int id)
         {
             var isDeleted = await _bookingRepository.DeleteBooking(id);

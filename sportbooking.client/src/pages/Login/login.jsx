@@ -1,4 +1,4 @@
-import styles from './LoginStyles.module.scss';
+﻿import styles from './LoginStyles.module.scss';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
@@ -42,6 +42,7 @@ function login() {
         console.log(res)
         if (res.status == 401) {
             handleOpenAlert(res.data, 'error');
+            setLoading(false)
             return
         }
 
@@ -63,18 +64,18 @@ function login() {
                         color: 'inherit',
                     }}
                     nowrap
-                    variant="h4">Login</Typography>
+                    variant="h4">Đăng nhập</Typography>
                 <TextField
                     className={styles['text-field']}
                     id="username"
-                    label="User name"
+                    label="Tên đăng nhập"
                     value={formLogin.username}
                     onChange={(e) => setFormLogin({...formLogin, username: e.target.value})}
                     variant="outlined" />
                 <TextField
                     className={styles['text-field']}
                     id="password"
-                    label="Password"
+                    label="Mật khẩu"
                     value={formLogin.password}
                     type="password"
                     onChange={(e) => setFormLogin({...formLogin, password: e.target.value})}
@@ -82,11 +83,11 @@ function login() {
                 <LoadingButton
                     variant="contained"
                     loading={loading}
-                    onClick={handleLogin}>Login
+                    onClick={handleLogin}>Đăng nhập
                 </LoadingButton>
                 <Box>
                     <Typography
-                        variant="h7">Do you have not account?
+                        variant="h7">Bạn chưa có tài khoản?
                     </Typography>
                     <Typography
                         variant="h7"
@@ -97,7 +98,7 @@ function login() {
                         }}
                         onClick={handleNavigateToRegister}
                     >
-                        Sign up
+                        Đăng ký
                     </Typography>
                 </Box>
             </Box>

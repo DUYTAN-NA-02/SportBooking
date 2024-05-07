@@ -1,4 +1,4 @@
-import Box from '@mui/material/Box';
+﻿import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
 import TextField from '@mui/material/TextField';
@@ -80,7 +80,7 @@ function register() {
                         color: 'inherit',
                     }}
                     nowrap
-                    variant="h4">Register</Typography>
+                    variant="h4">Đăng ký</Typography>
                 <TextField
                     className={Styles['text-field']}
                     autoFocus
@@ -92,7 +92,7 @@ function register() {
                 <TextField
                     className={Styles['text-field']}
                     id="phone"
-                    label="Phone"
+                    label="Điện thoại"
                     type="number"
                     value={formRegister.phone}
                     onChange={(e) => setFormRegister({ ...formRegister, phone: e.target.value })}
@@ -100,7 +100,7 @@ function register() {
                 <TextField
                     className={Styles['text-field']}
                     id="password"
-                    label="Password"
+                    label="Mật khẩu"
                     type="password"
                     value={formRegister.password}
                     onChange={(e) => setFormRegister({ ...formRegister, password: e.target.value })}
@@ -108,7 +108,7 @@ function register() {
                 <TextField
                     className={Styles['text-field']}
                     id="re-password"
-                    label="Re-Password"
+                    label="Nhập lại mật khẩu"
                     type="password"
                     value={formRegister.rePassword}
                     onChange={(e) => setFormRegister({ ...formRegister, rePassword: e.target.value })}
@@ -116,11 +116,11 @@ function register() {
                 <LoadingButton
                     onClick={handleRegister}
                     loading={loading}
-                    variant="contained">Register
+                    variant="contained">Đăng ký
                 </LoadingButton>
                 <Box>
                     <Typography
-                        variant="h7">Do you have account?
+                        variant="h7">Bạn đã có tài khoản?
                     </Typography>
                     <Typography
                         variant="h7"
@@ -131,7 +131,7 @@ function register() {
                         }}
                         onClick={handleNavigateToLogin}
                     >
-                        Sign in
+                        Đăng nhập
                     </Typography>
                 </Box>
             </Box>

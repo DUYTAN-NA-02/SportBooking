@@ -12,6 +12,7 @@ namespace SportBooking.Server.Data
         }
 
         public DbSet<Court> Courts { get; set; }
+        public DbSet<Media> Medias { get; set; }
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<TimeSlot> TimeSlots { get; set; }
         public DbSet<User> Users { get; set; }

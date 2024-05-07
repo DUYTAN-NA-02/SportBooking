@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -14,8 +14,8 @@ import MenuItem from '@mui/material/MenuItem';
 import SportsSoccerIcon from '@mui/icons-material/SportsSoccer';
 import { useNavigate } from 'react-router-dom';
 
-const pages = ['Court', 'About'];
-const settings = ['Account', 'Dashboard', 'Logout'];
+const pages = ['SÂN BÓNG', 'Về chúng tôi'];
+const settings = ['Tài khoản', 'Bảng điều khiển', 'Đăng xuất'];
 function Header({ avatarName }) {
     const navigate = useNavigate()
     const [anchorElNav, setAnchorElNav] = useState(null);
@@ -41,7 +41,7 @@ function Header({ avatarName }) {
     const handleCloseUserMenu = (e) => {
         setAnchorElUser(null);
         console.log(e.target.innerText)
-        if (e.target.innerText === 'Logout') {
+        if (e.target.innerText === 'Đăng xuất') {
             handleLogout()
         }
     };

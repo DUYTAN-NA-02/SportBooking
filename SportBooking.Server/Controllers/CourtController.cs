@@ -12,11 +12,18 @@ namespace SportBooking.Server.Controllers
     public class CourtController : Controller
     {
         private readonly ICourtRepository _courtRepository;
+        private readonly ICloudinaryServies _cloudinaryServies;
+        private readonly IMediaRepository _mediaRepository;
         private readonly IMapper _mapper;
-        public CourtController(ICourtRepository courtRepository, IMapper mapper)
+        public CourtController(ICourtRepository courtRepository,
+            IMapper mapper,
+            ICloudinaryServies cloudinaryServies,
+            IMediaRepository mediaRepository)
         {
             _courtRepository = courtRepository;
             _mapper = mapper;
+            _cloudinaryServies = cloudinaryServies;
+            _mediaRepository = mediaRepository;
         }
 
         [HttpGet("GetListCourts")]
@@ -30,7 +37,7 @@ namespace SportBooking.Server.Controllers
             return Ok(newCourts);
         }
 
-        [HttpGet("GetCourt/{id}")]
+        [HttpGet("Court/{id}")]
         [ProducesResponseType(200, Type = typeof(Court))]
         public async Task<IActionResult> GetCourt(int id)
         {
@@ -41,20 +48,29 @@ namespace SportBooking.Server.Controllers
             return Ok(newCourt);
         }
 
-        [HttpPost("CreateCourt/{id}")]
+        [HttpPost("Court/{id}")]
         [ProducesResponseType(200, Type = typeof(bool))]
-        public async Task <IActionResult> CreateCourt(int id,[FromBody]CourtDto court)
+        public async Task <IActionResult> CreateCourt(int id,[FromForm] CourtDto court)
         {
             var newCourt = await _courtRepository.AddCourt(id,_mapper.Map<Court>(court));
             if (newCourt == null)
                 return BadRequest("Add court Failed");
+            var resultUrls = await _cloudinaryServies.UploadFiles(court.Files);
+            if (resultUrls.Count != court.Files.Count)
+            {
+                return BadRequest("Add image url Failed");
+            }
+            List<Media> medias = await _mediaRepository.AddMedia(newCourt.Id, resultUrls);
+            if (medias == null)
+                return BadRequest("Add media Failed");
+            newCourt.Medias = medias;
             var _newCourt = _mapper.Map<CourtIdDto>(newCourt);
             return Ok(_newCourt);
         }
 
-        [HttpPut("UpdateCourt")]
+        [HttpPut("Court/{id}")]
         [ProducesResponseType(200, Type = typeof(Court))]
-        public async Task<IActionResult> UpdateCourt([FromHeader] int id,[FromBody]CourtDto court)
+        public async Task<IActionResult> UpdateCourt(int id,[FromForm] CourtDto court)
         {
             var oldCourt = await _courtRepository.GetCourt(id);
             if (oldCourt == null)
@@ -63,11 +79,22 @@ namespace SportBooking.Server.Controllers
             var courtRes = await _courtRepository.UpdateCourt(_mapper.Map<Court>(newCourt));
             if (courtRes == null)
                 return BadRequest("Update court Failed");
+
+            var resultUrls = await _cloudinaryServies.UploadFiles(court.Files);
+            if (resultUrls.Count != court.Files.Count)
+            {
+                return BadRequest("Add image url Failed");
+            }
+            List<Media> medias = await _mediaRepository.AddMedia(newCourt.Id, resultUrls);
+            if (medias == null)
+                return BadRequest("Add media Failed");
+
+            newCourt.Medias = medias;
             var _courtRes = _mapper.Map<CourtIdDto>(courtRes);
             return Ok(_courtRes);
         }
 
-        [HttpDelete("DeleteCourt/{id}")]
+        [HttpDelete("Court/{id}")]
         [ProducesResponseType(200, Type = typeof(bool))]
         public async Task<IActionResult> DeleteCourt(int id)
         {

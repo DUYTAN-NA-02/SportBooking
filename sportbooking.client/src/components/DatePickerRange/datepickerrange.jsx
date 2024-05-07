@@ -4,7 +4,7 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { memo } from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-const theme = createTheme({
+const theme1 = createTheme({
     palette: {
         primary: {
             main: '#ffffff', // Change to any color you want
@@ -40,17 +40,18 @@ const theme = createTheme({
     },
 });
 
-function dateTimePicker({ startDate, endDate, setStartDate, setEndDate }) {
+function dateTimePicker({ startDate, endDate, setStartDate, setEndDate, themeSet, disableEdit }) {
 
     console.log("re render date time picker")
 
     return (
-        <ThemeProvider theme={theme}>
+        <ThemeProvider theme={themeSet == 'light' && theme1}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DateTimePicker
                     value={startDate}
                     onChange={(date) => setStartDate(date)}
                     disablePast
+                    disabled = {disableEdit}
                     views={['year', 'month', 'day', 'hours', 'minutes']}
                 />
                 <DateTimePicker
@@ -58,6 +59,7 @@ function dateTimePicker({ startDate, endDate, setStartDate, setEndDate }) {
                     onChange={(date) => setEndDate(date)}
                     disablePast
                     minDateTime={startDate}
+                    disabled = {disableEdit}
                     views={['year', 'month', 'day', 'hours', 'minutes']}
                 />
             </LocalizationProvider>

@@ -31,7 +31,7 @@ namespace SportBooking.Server.Controllers
             return Ok(timeSlotDetails);
         }
 
-        [HttpGet("GetTimeSlotById/{id}")]
+        [HttpGet("TimeSlot/{id}")]
         public async Task<IActionResult> GetTimeSlotById(int id)
         {
             var timeSlot = await _timeSlotRepository.GetTimeSlotById(id);
@@ -54,7 +54,7 @@ namespace SportBooking.Server.Controllers
             var timeSlotDetails = _mapper.Map<ICollection<TimeSlotDetail>>(timeSlots);
             return Ok(timeSlotDetails);
         }
-        [HttpPost("CreateTimeSlot/{id}")]
+        [HttpPost("TimeSlot/{id}")]
         [ProducesResponseType(200, Type = typeof(TimeSlot))]
         public async Task<IActionResult> CreateTimeSlot(int id, [FromBody] TimeSlotDto timeSlotDto)
         {
@@ -79,7 +79,7 @@ namespace SportBooking.Server.Controllers
             var timeSlotDetail = _mapper.Map<TimeSlotDetail>(timeSlot);
             return Ok(timeSlotDetail);
         }
-        [HttpPut("UpdateTimeSlot/{id}")]
+        [HttpPut("TimeSlot/{id}")]
         [ProducesResponseType(200, Type = typeof(TimeSlot))]
         public async Task<IActionResult> UpdateTimeSlot(int id, [FromBody] TimeSlotDto timeSlotDto)
         {
@@ -109,7 +109,7 @@ namespace SportBooking.Server.Controllers
             var timeSlotDetail = _mapper.Map<TimeSlotDetail>(timeSlot);
             return Ok(timeSlotDetail);
         }
-        [HttpDelete("DeleteTimeSlot/{id}")]
+        [HttpDelete("TimeSlot/{id}")]
         public async Task<IActionResult> DeleteTimeSlot(int id)
         {
             var result = await _timeSlotRepository.DeleteTimeSlot(id);

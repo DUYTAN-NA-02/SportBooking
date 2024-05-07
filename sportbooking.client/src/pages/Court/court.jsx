@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+﻿import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getSmallCourtById } from '../../services/courtService';
 
@@ -9,48 +9,55 @@ import Box from '@mui/material/Box';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 
 import image from '../../assets/court.png';
+
+import DateTimeRangePicker from '../../components/DatePickerRange/index';
+import dayjs from 'dayjs';
 
 function courtId() {
     const { courtId } = useParams();
     const [court, setCourt] = useState(null);
+    const [user, setUser] = useState(null);
+    const [startDate, setStartDate] = useState();
+    const [endDate, setEndDate] = useState();
 
     const fetchCourt = async () => {
         let res = await getSmallCourtById(courtId);
-        console.log(res);
         setCourt(res);
     }
 
     useEffect(() => {
         fetchCourt();
+        setUser(JSON.parse(localStorage.getItem('user')))
         window.scrollTo(0, 0);
     }, [])
+
     return (
         <Box
             sx={{
                 marginTop: '90px',
+                padding: '0px 60px',
             }}
         >
             <Typography
                 sx={{
                     fontFamily: 'monospace',
                     textDecoration: 'none',
-                    marginLeft: '60px',
                 }}
-                variant="h5">
+                variant="h6">
                 <Link to="/" className={Styles["link"]}>Home</Link>
-                /Court/{courtId}
+                /Sân bóng/
             </Typography>
             <Typography
                 sx={{
                     fontFamily: 'monospace',
                     textDecoration: 'none',
                     fontWeight: 700,
-                    marginLeft: '60px',
                 }}
                 variant="h6">
-                Information of court
+                Thông tin sân bóng
             </Typography>
             <Box
                 className={Styles["box-main"]}
@@ -96,12 +103,57 @@ function courtId() {
                     </Box>
                 </Box>
             </Box>
-            <Box>
-                <Box>
-                    User booking
+            <Box className={Styles["box-info-booking"]}>
+                <Box className={Styles["box-info-booking-user"]}>
+                    {user &&
+                        <Box>
+                            <Typography>
+                                User name: {user.username}
+                            </Typography>
+                            <Typography>
+                                Phone: {user.phone}
+                            </Typography>
+                            <DateTimeRangePicker
+                                startDate={startDate}
+                                endDate={endDate}
+                                setStartDate={setStartDate}
+                                setEndDate={setEndDate}
+                                themeSet="dark"
+                                disableEdit={true}
+                            />
+                            <Button
+                                variant="contained"
+                            >
+                                Book this court
+                            </Button>
+
+                        </Box>}
                 </Box>
-                <Box>
-                    Time slots
+                <Box className={Styles["box-info-booking-timeslot"]}>
+                    <Box
+                        className={Styles["box-info-booking-timeslot-item"]}
+                    >
+                        13/4/2021
+                        17h-18h
+                    </Box>
+                    <Box
+                        className={Styles["box-info-booking-timeslot-item"]}
+                    >
+                        13/4/2021
+                        17h-18h
+                    </Box>
+                    <Box
+                        className={Styles["box-info-booking-timeslot-item"]}
+                    >
+                        13/4/2021
+                        17h-18h
+                    </Box>
+                    <Box
+                        className={Styles["box-info-booking-timeslot-item"]}
+                    >
+                        13/4/2021
+                        17h-18h
+                    </Box>
                 </Box>
             </Box>
         </Box>

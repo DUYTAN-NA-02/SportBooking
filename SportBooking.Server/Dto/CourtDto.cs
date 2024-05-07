@@ -4,12 +4,13 @@ namespace SportBooking.Server.Dto
 {
     public class CourtDto
     {
-        public string? Name { get; set; }
-        public decimal? Width { get; set; }
-        public decimal? Height { get; set; }
-        public string? Address { get; set; }
-        public string? Description { get; set; }
-        public decimal? Price { get; set; }
+        public string Name { get; set; }
+        public decimal Width { get; set; }
+        public decimal Height { get; set; }
+        public string Address { get; set; }
+        public string Description { get; set; }
+        public decimal Price { get; set; }
+        public List<IFormFile> Files { get; set; } 
     }
     public class CourtIdDto
     {
@@ -20,6 +21,7 @@ namespace SportBooking.Server.Dto
         public string? Address { get; set; }
         public string? Description { get; set; }
         public decimal? Price { get; set; }
+        public List<MediaDto>? Medias { get; set; }
     }
     public class CourtBigCourtDto
     {
@@ -43,5 +45,6 @@ namespace SportBooking.Server.Dto
         public decimal Price { get; set; }
         public BigCourtNotCourtsDto? BigCourt { get; set; }
         public ICollection<TimeSlotDetail>? TimeSlots { get; set; }
+        public ICollection<MediaDto>? Medias { get; set; }
     }
 }

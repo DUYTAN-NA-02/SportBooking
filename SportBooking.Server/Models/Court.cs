@@ -13,6 +13,7 @@
         public BigCourt? BigCourt { get; set; }
         public ICollection<Booking>? Bookings { get; set; }
         public ICollection<TimeSlot>? TimeSlots { get; set; }
+        public ICollection<Media>? Medias { get; set; }
 
     }
 }

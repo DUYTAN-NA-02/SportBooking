@@ -56,6 +56,10 @@ namespace SportBooking.Server.Helper
             CreateMap<BookingDtoRes, Booking>();
             CreateMap<Booking, BookingDtoResDetail>();
             CreateMap<BookingDtoResDetail, Booking>();
+
+            // Media
+            CreateMap<Media, MediaDto>();
+            CreateMap<MediaDto, Media>();
         }
     }
 }

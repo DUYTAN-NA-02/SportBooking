@@ -56,17 +56,19 @@ var mapperConfig = new MapperConfiguration(mc =>
 {
     mc.AddProfile(new MappingProfiles());
 });
+
+
 IMapper mapper = mapperConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);
-
-
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IBigCourtRepository, BigCourtRepository>();
 builder.Services.AddScoped<ICourtRepository, CourtRepository>();
 builder.Services.AddScoped<ITimeSlotRepository, TimeSlotRepository>();
 builder.Services.AddScoped<IBookingRepository, BookingRepository>();
+builder.Services.AddScoped<IMediaRepository, MediaRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<ICloudinaryServies, cloudinaryService>();
 
 builder.Services.AddControllers()
         .AddJsonOptions(options =>

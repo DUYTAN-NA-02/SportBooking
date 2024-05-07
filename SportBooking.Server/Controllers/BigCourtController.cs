@@ -31,7 +31,7 @@ namespace SportBooking.Server.Controllers
             return Ok(bigCourtsDto);
         }
 
-        [HttpGet("GetBigCourt/{id}")]
+        [HttpGet("BigCourt/{id}")]
         [ProducesResponseType(200, Type = typeof(BigCourt))]
         public async Task<IActionResult> GetBigCourt(int id)
         {
@@ -42,7 +42,7 @@ namespace SportBooking.Server.Controllers
             return Ok(bigCourtDto);
         }
 
-        [HttpPost("CreateBigCourt")]
+        [HttpPost("BigCourt")]
         [ProducesResponseType(200, Type = typeof(bool))]
         public async Task<IActionResult> CreateBigCourt(BigCourtCreateDto bigCourt)
         {
@@ -56,7 +56,7 @@ namespace SportBooking.Server.Controllers
             return Ok(newBigCourt);
         }
 
-        [HttpDelete("DeleteBigCourt/{id}")]
+        [HttpDelete("BigCourt/{id}")]
         [ProducesResponseType(200, Type = typeof(bool))]
         public async Task<IActionResult> DeleteBigCourt(int id)
         {
@@ -69,7 +69,7 @@ namespace SportBooking.Server.Controllers
             return Ok(result);
         }
 
-        [HttpPut("UpdateBigCourt/{id}")]
+        [HttpPut("BigCourt/{id}")]
         [ProducesResponseType(200, Type = typeof(bool))]
         public async Task<IActionResult> UpdateBigCourt(int id, BigCourtCreateDto bigCourt)
         {

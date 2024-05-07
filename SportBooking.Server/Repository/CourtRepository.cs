@@ -37,6 +37,7 @@ namespace SportBooking.Server.Repository
             var court = await _context.Courts
                                 .Include(c => c.BigCourt)
                                 .Include(c => c.TimeSlots)
+                                .Include(c => c.Medias)
                                 .FirstOrDefaultAsync(c => c.Id == id);
             return court;
         }
@@ -47,6 +48,7 @@ namespace SportBooking.Server.Repository
             return await _context.Courts
                                 .Include(c => c.BigCourt)
                                 .Include(c => c.TimeSlots)
+                                .Include(c => c.Medias)
                                 .OrderBy(c => c.Id).ToListAsync();
         }
 
