@@ -1,4 +1,4 @@
-import Card from '@mui/material/Card';
+﻿import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
@@ -20,7 +20,7 @@ function courtCards({ courtSelected }) {
         console.log(courtsObject?.sportGrounds);
         const courts = courtsObject?.sportGrounds?.map((court, index) => {
             return (
-                <Card sx={{ minWidth: 275 , cursor: 'pointer' }} key={index}>
+                <Card sx={{  width: '100%' , cursor: 'pointer' }} key={index}>
                     <CardContent>
                         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                             {court.name}
@@ -28,12 +28,18 @@ function courtCards({ courtSelected }) {
                         <Typography sx={{ mb: 1.5 }} color="text.secondary">
                             {court.width}m - {court.height}m
                         </Typography>
-                        <Typography variant="body2">
-                            {court.address}
+                        <Typography variant="body2" sx={{
+                                    height: '75px', 
+                                    overflow: 'auto',
+                                    scrollbarWidth: 'none',
+                                    '&::-webkit-scrollbar': {
+                                        display: 'none'
+                                    }}}>
+                            <b>Địa chỉ: </b>{court.address}
                             <br />
-                            {court.description}
+                            <b>Thông tin thêm: </b>{court.description}
                             <br />
-                            {court.price} VND
+                            <b>Giá tiền: </b>{court.price}.000 VND
                         </Typography>
                     </CardContent>
                     <CardActions

@@ -4,7 +4,8 @@ import Home from '../pages/Home/index'
 import About from '../pages/About/index'
 import NotFound from '../pages/NotFound/index'
 import Court from '../pages/Court/index'
-import Payment from '../pages/Payment/index'
+import Dashboard from '../pages/Dashboard/index'
+import Profile from '../pages/Profile/index'
 
 // Layout components
 import Auth from '../layouts/Auth/index'
@@ -16,11 +17,14 @@ const publicRoutes = [
     { path: "/login", page: Login, layout: Auth },
     { path: "/register", page: Register, layout: Auth },
     { path: "/about", page: About, layout: Blank },
+    { path: "/dashboard", page: Dashboard, layout: Main},
     { path: "/Court/:courtId", page: Court, layout: Main },
-    { path: "/Payment/:paymentId", page: Payment, layout: Main },
-    { path: "*", page: NotFound, layout: Blank }
+    { path: "/Profile", page: Profile, layout: Main},
+    { path: "*", page: NotFound, layout: Blank },
 ]
 
-const privateRoutes = []
+const privateRoutes = [
+    { path: "/dashboard", page: Dashboard, layout: Main},
+]
 
 export { publicRoutes, privateRoutes }

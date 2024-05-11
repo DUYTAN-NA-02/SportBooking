@@ -38,9 +38,9 @@
     }
 }
 
-.box-courts{
-    display: flex;
+.box-courts {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
     gap: 20px;
-    flex-wrap: wrap;
     padding: 20px;
 }

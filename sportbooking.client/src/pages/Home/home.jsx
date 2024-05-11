@@ -1,12 +1,9 @@
-﻿import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
+﻿import { Box, Typography, TextField, MenuItem } from '@mui/material';
 import Style from './HomeStyles.module.scss';
 
 import { useEffect, useState, useRef } from 'react';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { getBigCourt } from '../../services/courtService';
-import MenuItem from '@mui/material/MenuItem';
 
 import DateTimeRangePicker from '../../components/DatePickerRange/index';
 import CourtCards from '../../components/CourtCards/index';
@@ -27,9 +24,11 @@ function home() {
 
     const fetchCourts = async () => {
         const res = await getBigCourt()
-        console.log(res)
-        setCourts(res)
-        setCourtSelected(res[0])
+        if (res) {
+            console.log(res)
+            setCourts(res)
+            setCourtSelected(res[0])
+        }
     }
 
     useEffect(() => {

@@ -16,6 +16,7 @@ import { formatDateTime, formatDateStartEnd } from '../../utils/formatTime';
 import Arlet from '../../components/Alert/index';
 import { createBooking } from '../../services/bookingService';
 import 'animate.css'
+import { handleCheckDateGreaterThenNow } from '../../utils/checkTime';
 
 function courtId() {
     const {courtId } = useParams();
@@ -59,6 +60,8 @@ function courtId() {
 
     const handleBooking = async () => {
         setLoadingBooking(true);
+        let resutlRes = false;
+        let id;
         if (user && timeslot) {
             console.log(user.id);
             console.log(timeslot.id);
@@ -70,23 +73,28 @@ function courtId() {
                 status: 0,
             }
             let res = await createBooking(bookingObj);
-            console.log(res);
             if (res.status == 400) {
-                setOpen(true)
-                setMessage('Đặt sân thất bại')
-                setStatus('error')
-                setLoadingBooking(false);
-                return;
+                resutlRes = false;
             }
+            else {
+                id = res.id;
+                resutlRes = true;
+            }  
+        } else {
+            resutlRes = false;
+        }
+
+        if (resutlRes) {
             setOpen(true)
             setMessage('Đặt sân thành công')
             setStatus('success')
+            setLoadingBooking(false);
         } else {
             setOpen(true)
             setMessage('Đặt sân thất bại')
             setStatus('error')
+            setLoadingBooking(false);
         }
-        setLoadingBooking(false);
     }
 
     return (
@@ -147,7 +155,7 @@ function courtId() {
                             className={Styles["box-info-item"]}
                         >
                             <Typography>Giá tiền:</Typography>
-                            <Typography>{court?.price} VND</Typography>
+                            <Typography>{court?.price}.000 VND</Typography>
                         </Box>
                         <Box
                             className={Styles["box-info-item"]}
@@ -223,6 +231,21 @@ function courtId() {
                             className={Styles["box-info-booking-timeslot-item"]}
                         >
                             {court?.timeSlots?.map((item, index) => {
+                                if (handleCheckDateGreaterThenNow(item.timeStart)) {
+                                    return (<Chip
+                                        key={index}
+                                        label={formatDateStartEnd(item.timeStart, item.timeEnd)}
+                                        color={timeslot?.id === item.id ? 'primary' : 'default'}
+                                        sx={{
+                                            '& .MuiChip-label': {
+                                                display: 'block',
+                                                whiteSpace: 'normal',
+                                            },
+                                        }}
+                                        size="large"
+                                        onClick={() => handleChooseTimeSlot(item)}
+                                    />);
+                                }
                                 return (
                                     <Chip
                                         key={index}
@@ -234,6 +257,7 @@ function courtId() {
                                                 whiteSpace: 'normal',
                                             },
                                         }}
+                                        disabled
                                         size="large"
                                         onClick={() => handleChooseTimeSlot(item)}
                                     />

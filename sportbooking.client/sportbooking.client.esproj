@@ -12,8 +12,8 @@
     <Folder Include="src\components\Alert\" />
     <Folder Include="src\layouts\Auth\" />
     <Folder Include="src\layouts\Main\" />
-    <Folder Include="src\pages\Payment\" />
-    <Folder Include="src\utils\" />
+    <Folder Include="src\pages\Dashboard\" />
+    <Folder Include="src\pages\Profile\" />
     <Folder Include="src\routes\" />
   </ItemGroup>
 </Project>

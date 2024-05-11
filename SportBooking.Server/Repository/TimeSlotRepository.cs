@@ -22,7 +22,7 @@ namespace SportBooking.Server.Repository
             }
             timeSlot.CourtId = id;
             var timeSlotExist = await _context.TimeSlots
-                .Where(x => x.TimeStart <= timeSlot.TimeStart && timeSlot.TimeStart <= x.TimeEnd && x.CourtId == id)
+                .Where(x => x.TimeStart < timeSlot.TimeStart && timeSlot.TimeStart < x.TimeEnd && x.CourtId == id)
                 .FirstOrDefaultAsync();
             if(timeSlotExist != null)
             {

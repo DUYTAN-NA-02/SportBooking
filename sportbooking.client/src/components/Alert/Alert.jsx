@@ -21,6 +21,9 @@ function AlertComponent({ open, message, status, setOpen }) {
 
     return (
         <Snackbar
+            sx={{
+                zIndex: 999999,
+            }}
             open={open}
             autoHideDuration={1000}
             onClose={handleClose}

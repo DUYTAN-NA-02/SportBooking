@@ -40,7 +40,13 @@ function Header({ avatarName }) {
 
     const handleCloseUserMenu = (index) => {
         setAnchorElUser(null);
-        if (index == 2) {
+        if (index == 0) {
+            navigate('/profile')
+        }
+        if (index == 1) {
+            navigate('/dashboard')
+        }
+        else if (index == 2) {
             handleLogout()
         }
     };
@@ -126,6 +132,7 @@ function Header({ avatarName }) {
                             color: 'inherit',
                             textDecoration: 'none',
                         }}
+                        onClick={() => navigate('/')}
                     >
                         SPORTBOOKING
                     </Typography>
