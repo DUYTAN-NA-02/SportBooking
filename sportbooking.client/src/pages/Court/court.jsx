@@ -5,14 +5,21 @@ import ShowImage from '../../components/ShowImage/index';
 import Styles from './CourtStyles.module.scss';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
-import Box from '@mui/material/Box';
-import ImageList from '@mui/material/ImageList';
-import ImageListItem from '@mui/material/ImageListItem';
-import Typography from '@mui/material/Typography';
-import LoadingButton from '@mui/lab/LoadingButton';
-import Chip from '@mui/material/Chip';
+import {
+    Box,
+    ImageList,
+    ImageListItem,
+    Typography,
+    Chip,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
+} from '@mui/material';
 
-import { formatDateTime, formatDateStartEnd } from '../../utils/formatTime';
+import { LoadingButton } from '@mui/lab';
+
+import { formatDateTime, formatDateStartEnd, formatDate } from '../../utils/formatTime';
 import Arlet from '../../components/Alert/index';
 import { createBooking } from '../../services/bookingService';
 import 'animate.css'
@@ -26,6 +33,11 @@ function courtId() {
     const [showImage, setShowImage] = useState(null);
     const [loadingBooking, setLoadingBooking] = useState(false);
 
+    const [timeslots, setTimeslots] = useState([]);
+    const [timeslotsTemp, setTimeslotsTemp] = useState([]);
+    const [selectedDate, setSelectedDate] = useState("");
+    const [dates, setDates] = useState([]);
+
     const [open, setOpen] = useState(false)
     const [message, setMessage] = useState('')
     const [status, setStatus] = useState('')
@@ -38,14 +50,25 @@ function courtId() {
             navigate('*')
             return;
         }
-        console.log(res);
+        var timeSlots = res.timeSlots;
+        var dates = [];
+        timeSlots.forEach(item => {
+            var date = formatDate(item.timeStart);
+            if (!dates.includes(date)) {
+                dates.push(date);
+            }
+        })
+        console.log(dates);
+        setDates(dates);
+        setSelectedDate(dates[0]);
+        setTimeslots(timeSlots);
+        setTimeslotsTemp(timeSlots);
         setCourt(res);
     }
 
     useEffect(() => {
         fetchCourt();
         setUser(JSON.parse(localStorage.getItem('user')))
-        console.log(JSON.parse(localStorage.getItem('user')))
         window.scrollTo(0, 0);
     }, [])
 
@@ -160,6 +183,12 @@ function courtId() {
                         <Box
                             className={Styles["box-info-item"]}
                         >
+                            <Typography>Thông tin liên lạc:</Typography>
+                            <Typography>{court?.numberManager != null ? court?.numberManager : "N/A"}</Typography>
+                        </Box>
+                        <Box
+                            className={Styles["box-info-item"]}
+                        >
                             <Typography>Thông tin thêm: </Typography>
                             <Typography>{court?.description}</Typography>
                         </Box>
@@ -228,9 +257,34 @@ function courtId() {
                             Chọn khung giờ bạn muốn đặt sân
                         </Typography>
                         <Box
+                            sx={{
+                                scrollY: 'auto',
+                            }}
+                        >
+                           
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Ngày đặt sân:</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    label="Ngày đặt sân:"
+                                    value={selectedDate}
+                                    onChange={(e) => {
+                                        setSelectedDate(e.target.value);
+                                        let temp = timeslotsTemp.filter(item => formatDate(item.timeStart) == e.target.value);
+                                        setTimeslots(temp);
+                                    }}
+                                >
+                                    {dates.map((date, index) => (
+                                        <MenuItem key={index} value={date}>{date}</MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </Box>
+                        <Box
                             className={Styles["box-info-booking-timeslot-item"]}
                         >
-                            {court?.timeSlots?.map((item, index) => {
+                            {timeslots.map((item, index) => {
                                 if (handleCheckDateGreaterThenNow(item.timeStart)) {
                                     return (<Chip
                                         key={index}

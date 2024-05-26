@@ -10,6 +10,16 @@ export const formatDateTime = (time) => {
     return formattedDate;
 }
 
+export const formatDate = (time) => {
+    let date = new Date(time);
+    let day = date.getDate().toString().padStart(2, '0');
+    let month = (date.getMonth() + 1).toString().padStart(2, '0');
+    let year = date.getFullYear();
+
+    let formattedDate = `${day}/${month}/${year}`;
+    return formattedDate;
+}
+
 export const formatTime = (time) => {
     let date = new Date(time);
     let hours = date.getHours().toString().padStart(2, '0');

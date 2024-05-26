@@ -158,7 +158,9 @@ namespace SportBooking.Server.Repository
                 .Include(b => b.Court)
                     .ThenInclude(c => c.BigCourt)
                 .Include(b => b.TimeSlot)
+                .OrderByDescending(b => b.TimeSlot.TimeStart)
                 .Where(c => c.UserId == userId).ToListAsync();
+
             if (booking == null)
             {
                 return null;

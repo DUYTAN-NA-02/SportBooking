@@ -9,6 +9,7 @@
         public string? Address { get; set; }
         public string? Description { get; set; }
         public decimal? Price { get; set; }
+        public string? numberManager { get; set; }
         public int? BigCourtId { get; set; }
         public BigCourt? BigCourt { get; set; }
         public ICollection<Booking>? Bookings { get; set; }

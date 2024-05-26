@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SportBooking.Server.Dto;
 using SportBooking.Server.Interfaces;
 using SportBooking.Server.models;
-using SportBooking.Server.Repository;
+using SportBooking.Server.ValidData;
 
 namespace SportBooking.Server.Controllers
 {
@@ -52,6 +52,10 @@ namespace SportBooking.Server.Controllers
         [ProducesResponseType(200, Type = typeof(bool))]
         public async Task <IActionResult> CreateCourt(int id,[FromForm] CourtDto court)
         {
+            var numberPhone = court.numberManager;
+            if (!VaildData.IsPhoneNumber(numberPhone))
+                return BadRequest("Number phone is not vaild");
+
             var newCourt = await _courtRepository.AddCourt(id,_mapper.Map<Court>(court));
             if (newCourt == null)
                 return BadRequest("Add court Failed");
@@ -75,6 +79,10 @@ namespace SportBooking.Server.Controllers
         [ProducesResponseType(200, Type = typeof(Court))]
         public async Task<IActionResult> UpdateCourt(int id,[FromForm] CourtDto court)
         {
+            var numberPhone = court.numberManager;
+            if (!VaildData.IsPhoneNumber(numberPhone))
+                return BadRequest("Number phone is not vaild");
+
             var oldCourt = await _courtRepository.GetCourt(id);
             if (oldCourt == null)
                 return BadRequest("Have not court");

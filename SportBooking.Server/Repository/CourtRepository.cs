@@ -36,9 +36,10 @@ namespace SportBooking.Server.Repository
         {
             var court = await _context.Courts
                                 .Include(c => c.BigCourt)
-                                .Include(c => c.TimeSlots.Where(t => t.TimeStart > DateTime.Now))
+                                .Include(c => c.TimeSlots.Where(t => t.TimeStart > DateTime.Now).OrderBy(t=> t.TimeStart))
                                 .Include(c => c.Medias)
                                 .FirstOrDefaultAsync(c => c.Id == id);
+
             if (court == null)
                 return null;
             return court;

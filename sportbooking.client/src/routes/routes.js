@@ -24,7 +24,12 @@ const publicRoutes = [
 ]
 
 const privateRoutes = [
-    { path: "/dashboard", page: Dashboard, layout: Main},
+    { path: "/dashboardAdmin", page: Dashboard, layout: Main },
+    { path: "/addTypeCourt", page: Dashboard, layout: Main },
+    { path: "/addCourt", page: Dashboard, layout: Main },
+    { path: "/editCourt/:courtId", page: Dashboard, layout: Main },
+    { path: "/Profile", page: Profile, layout: Main},
+    { path: "*", page: NotFound, layout: Blank },
 ]
 
 export { publicRoutes, privateRoutes }
